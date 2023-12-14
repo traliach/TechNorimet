@@ -17,7 +17,7 @@ jobs:
     - name: Deploy to Server
       if: github.ref == 'refs/heads/main'
       run: |
-        scp -i ${{ secrets.DEPLOY_KEY }} -r * ubuntu@your-server-ip:/var/www/html
+        scp -i ${{ secrets.DEPLOY_KEY }} -r * ubuntu@100.24.51.230:/var/www/html
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 
