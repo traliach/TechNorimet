@@ -1,4 +1,4 @@
-name: CI/CD Pipeline Deploy Static website
+name: CI/CD Pipeline Deploy First Static website
 
 on:
   push:
