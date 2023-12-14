@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3 # Use the latest version of checkout action
     
-    - name: Use Node.js
-      uses: actions/setup-node@v1
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v3 # Use the latest version of setup-node action
       with:
-        node-version: '14'
+        node-version: 'lts/*' # Automatically use the latest LTS version of Node.js
 
     - name: Install dependencies
       run: npm install
@@ -27,6 +27,6 @@ jobs:
     - name: Deploy to Server
       if: github.ref == 'refs/heads/main'
       run: |
-        scp -r * ubuntu@100.24.51.230:/var/www/html
+        scp -i ${{ secrets.DEPLOY_KEY }} -r * ubuntu@100.24.51.230:/var/www/html
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
