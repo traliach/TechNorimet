@@ -21,6 +21,8 @@ jobs:
         chmod 600 ~/.ssh/deploy_key
         eval "$(ssh-agent -s)"
         ssh-add ~/.ssh/deploy_key
+        ssh-keyscan -H 100.24.51.230 >> ~/.ssh/known_hosts
         scp -r * ubuntu@100.24.51.230:/var/www/html
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
