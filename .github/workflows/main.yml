@@ -1,32 +1,23 @@
-name: CI/CD Pipeline
+name: Deploy Static Website
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3 # Use the latest version of checkout action
-    
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v3 # Use the latest version of setup-node action
-      with:
-        node-version: 'lts/*' # Automatically use the latest LTS version of Node.js
+    - uses: actions/checkout@v3 # Checkout your repository code
 
-    - name: Install dependencies
-      run: npm install
-
-    - name: Run tests
-      run: npm test
+    # Add any steps here that you might need to build your website, if you have a build process
+    # For a simple static website with no build process, you can directly proceed to deployment
 
     - name: Deploy to Server
       if: github.ref == 'refs/heads/main'
       run: |
-        scp -i ${{ secrets.DEPLOY_KEY }} -r * ubuntu@100.24.51.230:/var/www/html
+        scp -i ${{ secrets.DEPLOY_KEY }} -r * ubuntu@your-server-ip:/var/www/html
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
