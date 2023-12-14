@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3 # Checks out your repository under $GITHUB_WORKSPACE
+    - uses: actions/checkout@v3 # Checkout your repository code
     
     # Additional steps can go here if you have any build or test steps.
     # Since you're deploying a static site, you might not have these steps.
@@ -19,11 +19,17 @@ jobs:
     - name: Deploy to Server
       if: github.ref == 'refs/heads/main'
       run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
         eval "$(ssh-agent -s)"
-        ssh-add - <<< "${{ secrets.DEPLOY_KEY }}"
+        ssh-add ~/.ssh/deploy_key
         scp -r * ubuntu@100.24.51.230:/var/www/html
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
+    DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
 
 
 
